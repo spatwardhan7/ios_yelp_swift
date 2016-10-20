@@ -8,12 +8,14 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate, UIScrollViewDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate, UIScrollViewDelegate, UISearchBarDelegate {
     
     var businesses: [Business]!
+    var filteredBusinesses: [Business]!
     @IBOutlet weak var tableView: UITableView!
     var isMoreDataLoading = false
-    
+    let searchBar = UISearchBar()
+    var shouldShowSearchResults = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +24,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
+        
+        createSearchBar()
         
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
@@ -54,9 +58,51 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
     }
     
+    func createSearchBar(){
+        searchBar.delegate = self
+        searchBar.placeholder = "Search"
+        self.navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredBusinesses = businesses?.filter({(business: Business) -> Bool in
+            let businessName = business.name
+            return businessName!.lowercased().range(of: searchText.lowercased()) != nil
+            
+        })
+        
+        if searchText != ""{
+            shouldShowSearchResults = true
+            tableView.reloadData()
+        } else {
+            shouldShowSearchResults = false
+            tableView.reloadData()
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        shouldShowSearchResults = true
+        searchBar.endEditing(true)
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if businesses != nil {
-            return businesses.count
+            if shouldShowSearchResults{
+                return (filteredBusinesses?.count)!
+            }
+            else {
+                return businesses.count
+            }
+            
         } else {
             return 0
         }
@@ -65,7 +111,11 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessCell", for: indexPath) as! BusinessCell
         
-        cell.business = businesses[indexPath.row]
+        if shouldShowSearchResults {
+            cell.business = filteredBusinesses?[indexPath.row]
+        } else {
+            cell.business = businesses[indexPath.row]
+        }
         
         return cell
     }
