@@ -82,8 +82,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         let categories = filters["categories"] as? [String]
         
-        //Business.searchWithTerm(term: "Restaurants", sort: nil, categories: categories, deals: nil
-    
+        Business.searchWithTerm(term: "Restaurants", sort: nil, categories: categories, deals: nil) { (businesses : [Business]?,error :  Error?) in
+            self.businesses = businesses
+            self.tableView.reloadData()
+        }
     }
     
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
