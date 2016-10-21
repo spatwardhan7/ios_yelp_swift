@@ -13,13 +13,14 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var businesses: [Business]!
     var filteredBusinesses: [Business]!
     @IBOutlet weak var tableView: UITableView!
+    var loadingMoreView:InfiniteScrollActivityView?
     var isMoreDataLoading = false
     let searchBar = UISearchBar()
     var filter = Filter()
     var searchTerm = ""
     var yelpCategories : [[String:String]]!
     var yelpDistances : [Int : Double]!
-    
+    static var offset = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +30,26 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
+        initInfiniteScrollIndicator()
+        
         yelpCategories = DataHelper.initYelpCategories()
         yelpDistances = DataHelper.initDistanceMapper()
         createSearchBar()
         
         // Call Yelp Search API
         networkCall()
+    }
+    
+    func initInfiniteScrollIndicator(){
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRect(origin : CGPoint ( x : 0, y : tableView.contentSize.height),size : CGSize (width : tableView.bounds.size.width,height : InfiniteScrollActivityView.defaultHeight))
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset;
+        insets.bottom += InfiniteScrollActivityView.defaultHeight;
+        tableView.contentInset = insets
     }
     
     func createSearchBar(){
@@ -85,8 +100,14 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             // When the user has scrolled past the threshold, start requesting
             if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
                 isMoreDataLoading = true
+                BusinessesViewController.offset += 20
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(origin : CGPoint(x : 0, y : tableView.contentSize.height), size : CGSize (width : tableView.bounds.size.width, height : InfiniteScrollActivityView.defaultHeight))
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
                 
                 // ... Code to load more results ...
+                networkCall()
             }
             
         }
@@ -102,8 +123,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filter: Filter) {
-        
         self.filter = filter.copy() as! Filter
+        BusinessesViewController.offset = 0
         networkCall()
     }
     
@@ -122,9 +143,19 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             yelpSortMode = YelpSortMode.bestMatched
         }
         
+        let localOffset = BusinessesViewController.offset
+        
         let distanceInMeters = getDistanceInMeters()
-        Business.searchWithTerm(term: searchTerm,distance : distanceInMeters ,sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
-            self.businesses = businesses
+        Business.searchWithTerm(term: searchTerm,distance : distanceInMeters ,sort: yelpSortMode, categories: categories, offset : localOffset ,deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
+            
+            if self.isMoreDataLoading{
+                self.isMoreDataLoading = false
+                self.loadingMoreView?.stopAnimating()
+                self.businesses.append(contentsOf: businesses!)
+            } else {
+                self.businesses = businesses
+            }
+            
             self.tableView.reloadData()
             
             if let businesses = businesses {
