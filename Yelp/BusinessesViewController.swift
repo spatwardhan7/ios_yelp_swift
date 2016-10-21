@@ -33,33 +33,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         yelpDistances = DataHelper.initDistanceMapper()
         createSearchBar()
         
-        Business.searchWithTerm(term: "", completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
-            
-            self.tableView.reloadData()
-            
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                }
-            }
-            
-            }
-        )
-        
-        
-        /* Example of Yelp search with more search options specified
-         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-         self.businesses = businesses
-         
-         for business in businesses {
-         print(business.name!)
-         print(business.address!)
-         }
-         }
-         */
+        // Call Yelp Search API
+        networkCall()
         
     }
     
@@ -153,7 +128,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filter: Filter) {
         
         self.filter = filter.copy() as! Filter
-        print(" deals :  \(self.filter.isDealsChecked)")
+        networkCall()
+    }
+    
+    private func networkCall(){
         let categories = getCategoriesArray()
         var yelpSortMode : YelpSortMode
         
@@ -169,12 +147,17 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         }
         
         let distanceInMeters = getDistanceInMeters()
-        
-        Business.searchWithTerm(term: "Restaurants",distance : distanceInMeters ,sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
+        Business.searchWithTerm(term: "",distance : distanceInMeters ,sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
             self.businesses = businesses
             self.tableView.reloadData()
+            
+            if let businesses = businesses {
+                for business in businesses {
+                    print(business.name!)
+                    print(business.address!)
+                }
+            }
         }
-        
     }
     
     private func getDistanceInMeters() -> Double {

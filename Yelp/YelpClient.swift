@@ -68,6 +68,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         if deals != nil {
             parameters["deals_filter"] = deals! as AnyObject?
         }
+        //parameters["offset"] = 5 as AnyObject?
         
         print(parameters)
         
