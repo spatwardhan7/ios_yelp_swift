@@ -18,6 +18,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var shouldShowSearchResults = false
     var filter = Filter()
     var yelpCategories : [[String:String]]!
+    var yelpDistances : [Int : Double]!
     
     
     override func viewDidLoad() {
@@ -29,6 +30,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.estimatedRowHeight = 120
         
         yelpCategories = initYelpCategories()
+        yelpDistances = initDistanceMapper()
         createSearchBar()
         
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
@@ -166,18 +168,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             yelpSortMode = YelpSortMode.bestMatched
         }
         
-        Business.searchWithTerm(term: "Restaurants", sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
+        let distanceInMeters = getDistanceInMeters()
+        
+        Business.searchWithTerm(term: "Restaurants",distance : distanceInMeters ,sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
             self.businesses = businesses
             self.tableView.reloadData()
         }
-        
-        /*let categories = filters["categories"] as? [String]
-         
-         Business.searchWithTerm(term: "Restaurants", sort: nil, categories: categories, deals: nil) { (businesses : [Business]?,error :  Error?) in
-         self.businesses = businesses
-         self.tableView.reloadData()
-         }
-         */
+
+    }
+    
+    private func getDistanceInMeters() -> Double {
+        let distanceInMiles = yelpDistances[self.filter.distance]!
+        return distanceInMiles * 1609.34
     }
     
     private func getCategoriesArray() -> [String] {
@@ -200,6 +202,14 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         filtersViewController.currentFilter = filter
         filtersViewController.delegate = self
+    }
+    
+    func initDistanceMapper() ->[Int:Double]{
+        return [0 : 0,
+                1 : 0.3,
+                2 : 1,
+                3 : 5,
+                4 : 20]
     }
     
     func initYelpCategories() -> [[String: String]]{

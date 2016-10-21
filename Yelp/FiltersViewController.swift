@@ -15,20 +15,20 @@ import UIKit
 class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource , SwitchCellDelegate{
     
     let SECTION_DEALS = 0
-    let SECTION_SORT = 1
-    let SECTION_CUISINES = 2
+    let SECTION_DISTANCE = 1
+    let SECTION_SORT = 2
+    let SECTION_CUISINES = 3
 
-    
     // TODO: Update this as we go along adding more sections
-    let NUM_SECTIONS = 3
-    
-    let DEALS_LABEL_TEXT = "Deals"
+    let NUM_SECTIONS = 4
     
     let DEALS_HEADER_TEXT = "Looking for Deals?"
+    let DISTANCE_HEADER_TEXT = "Distance"
     let CUISINE_HEADER_TEXT = "Category"
     let SORT_HEADER_TEXT = "Sort by"
 
-    
+    let DEALS_LABEL_TEXT = "Deals"
+    let DISTANCE_LABEL_TEXT = ["Auto", "0.3 miles", "1 mile", "5 miles", "20 miles"]
     let SORT_LABEL_TEXT = ["Best Matched", "Distance", "Highest Rated"]
     
     @IBOutlet weak var tableView: UITableView!
@@ -99,6 +99,8 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch section {
         case SECTION_DEALS:
             return 1
+        case SECTION_DISTANCE:
+            return DISTANCE_LABEL_TEXT.count
         case SECTION_SORT:
             return SORT_LABEL_TEXT.count
         case SECTION_CUISINES:
@@ -112,6 +114,8 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch(section) {
         case SECTION_DEALS :
             return DEALS_HEADER_TEXT
+        case SECTION_DISTANCE:
+            return DISTANCE_HEADER_TEXT
         case SECTION_SORT:
             return SORT_HEADER_TEXT
         case SECTION_CUISINES:
@@ -129,6 +133,18 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         case SECTION_DEALS:
             cell.switchLabel.text = DEALS_LABEL_TEXT
             cell.onSwitch.isOn = tempFilter.isDealsChecked
+        case SECTION_DISTANCE:
+            cell.switchLabel.text = DISTANCE_LABEL_TEXT[indexPath.row]
+            
+            if(indexPath.row == tempFilter.distance){
+                cell.radioButton.isSelected = true
+            }else {
+                cell.radioButton.isSelected = false
+            }
+            
+            cell.onSwitch.isHidden = true
+            cell.radioButton.isHidden = false
+            
         case SECTION_SORT:
             cell.switchLabel.text = SORT_LABEL_TEXT[indexPath.row]
             
@@ -181,6 +197,10 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch indexPath?.section {
         case SECTION_DEALS?:
             tempFilter.isDealsChecked = value
+        case SECTION_DISTANCE?:
+            tempFilter.distance = (indexPath?.row)!
+            print("Setting tempFilter.distance : \(tempFilter.distance)")
+            self.tableView.reloadData()
         case SECTION_SORT?:
             tempFilter.sortMode = (indexPath?.row)!
             print("Setting tempFilter.sortMode : \(tempFilter.sortMode)")
