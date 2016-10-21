@@ -20,6 +20,11 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     // TODO: Update this as we go along adding more sections
     let NUM_SECTIONS = 2
     
+    let DEALS_LABEL_TEXT = "Deals"
+    
+    let DEALS_HEADER_TEXT = "Looking for Deals?"
+    let CUISINE_HEADER_TEXT = "Category"
+    
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
     var currentFilter: Filter!
@@ -52,23 +57,23 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         
         /*
-        var filters = [String: AnyObject]()
-        
-        var selectedCategories = [String]()
-        for (row,isSelected) in switchCuisineStates {
-            if isSelected{
-                selectedCategories.append(categories[row]["code"]!)
-            }
-        }
-        
-        if selectedCategories.count > 0 {
-            filters["categories"] = selectedCategories as AnyObject?
-        }
- 
-        
-        
-        delegate?.filtersViewController!(filtersViewController: self, didUpdateFilters: filters)
- */
+         var filters = [String: AnyObject]()
+         
+         var selectedCategories = [String]()
+         for (row,isSelected) in switchCuisineStates {
+         if isSelected{
+         selectedCategories.append(categories[row]["code"]!)
+         }
+         }
+         
+         if selectedCategories.count > 0 {
+         filters["categories"] = selectedCategories as AnyObject?
+         }
+         
+         
+         
+         delegate?.filtersViewController!(filtersViewController: self, didUpdateFilters: filters)
+         */
         
         delegate?.filtersViewController!(filtersViewController: self, didUpdateFilters: tempFilter)
     }
@@ -85,21 +90,32 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch(section) {
+        case SECTION_DEALS :
+            return DEALS_HEADER_TEXT
+        case SECTION_CUISINES:
+            return CUISINE_HEADER_TEXT
+        default:
+            return "Header section not found"
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
         cell.delegate = self
         
         if(indexPath.section == SECTION_DEALS){
-            cell.switchLabel.text = "Deals"
+            cell.switchLabel.text = DEALS_LABEL_TEXT
             
             /*
-            if switchDealsState[true] != nil {
-                cell.onSwitch.isOn = switchDealsState[true]!
-            } else {
-                cell.onSwitch.isOn = currentFilters.isDealsChecked
-                
-            }
-            */
+             if switchDealsState[true] != nil {
+             cell.onSwitch.isOn = switchDealsState[true]!
+             } else {
+             cell.onSwitch.isOn = currentFilters.isDealsChecked
+             
+             }
+             */
             cell.onSwitch.isOn = tempFilter.isDealsChecked
         }
         
@@ -113,12 +129,12 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             
             /*
-            if switchCuisineStates[indexPath.row] != nil {
-                cell.onSwitch.isOn = switchCuisineStates[indexPath.row]!
-            }else {
-                cell.onSwitch.isOn = false
-            }
-            */
+             if switchCuisineStates[indexPath.row] != nil {
+             cell.onSwitch.isOn = switchCuisineStates[indexPath.row]!
+             }else {
+             cell.onSwitch.isOn = false
+             }
+             */
         }
         
         return cell
