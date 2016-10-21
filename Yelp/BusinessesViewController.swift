@@ -33,7 +33,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         yelpDistances = DataHelper.initDistanceMapper()
         createSearchBar()
         
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "", completion: { (businesses: [Business]?, error: Error?) -> Void in
             
             self.businesses = businesses
             

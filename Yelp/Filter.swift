@@ -14,6 +14,7 @@ class Filter: NSObject, NSCopying {
     var cuisineStates = [Int:Bool]()
     // Sort mode: 0=Best matched (default), 1=Distance, 2=Highest Rated.
     var sortMode : Int = 0
+    // Distance, used as key to get actual distance value in miles from distanceMapper
     var distance : Int = 0
     
     init(isDealsChecked: Bool = false, cuisineStates: [Int:Bool] = [Int:Bool](), sortMode: Int = 0 , distance : Int = 0){
