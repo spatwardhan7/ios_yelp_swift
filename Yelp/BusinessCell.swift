@@ -20,16 +20,34 @@ class BusinessCell: UITableViewCell {
     var business : Business! {
         didSet{
             nameLabel.text = business.name
-            thumbImageView.setImageWith(business.imageURL!)
             categoriesLabel.text = business.categories
             addressLabel.text = business.address
             reviewsCountLabel.text = "\(business.reviewCount!) Reviews"
-            ratingImageView.setImageWith(business.ratingImageURL!)
             distanceLabel.text = business.distance
+            ratingImageView.setImageWith(business.ratingImageURL!)
             
+            if business.imageURL != nil {
+                let imageUrlRequest = URLRequest(url: business.imageURL!)
+                
+                thumbImageView.setImageWith(imageUrlRequest, placeholderImage: nil,
+                                             success: { (request : URLRequest, response : HTTPURLResponse?, image : UIImage!) in
+                    if image != nil {
+                        self.thumbImageView.alpha = 0
+                        self.thumbImageView.image = image
+                        UIView.animate(withDuration: 0.5 , animations: {() -> Void in
+                            self.thumbImageView.alpha = 1
+                        })
+                    }
+                    
+                    }, failure: { (request : URLRequest,response : HTTPURLResponse?,error : Error) -> Void in
+                        self.thumbImageView.image = #imageLiteral(resourceName: "no-image-found")
+                })
+            } else {
+                self.thumbImageView.image = #imageLiteral(resourceName: "no-image-found")
+            }
         }
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
