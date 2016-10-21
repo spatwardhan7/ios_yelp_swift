@@ -16,6 +16,7 @@ class SwitchCell: UITableViewCell {
     
     @IBOutlet weak var switchLabel: UILabel!
     @IBOutlet weak var onSwitch: UISwitch!
+    @IBOutlet weak var radioButton: ISRadioButton!
     
     weak var delegate: SwitchCellDelegate?
     
@@ -23,10 +24,18 @@ class SwitchCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        
         onSwitch.addTarget(self, action: #selector(SwitchCell.switchValueChanged), for: UIControlEvents.valueChanged)
     }
-    
+
+    @IBAction func touchUpInsideButton(_ sender: AnyObject){
+        print("touch up inside button")
+        print("radio button before toggle :  isSelected: \(radioButton.isSelected)")
+        if(radioButton.isSelected){
+            print("radio button was not in selected state")
+            delegate?.switchCell?(switchcell: self, didChangeValue: radioButton.isSelected)
+
+        }
+    }
     func switchValueChanged(){
         print("switch value changed")
         

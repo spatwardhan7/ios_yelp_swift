@@ -15,15 +15,21 @@ import UIKit
 class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource , SwitchCellDelegate{
     
     let SECTION_DEALS = 0
-    let SECTION_CUISINES = 1
+    let SECTION_SORT = 1
+    let SECTION_CUISINES = 2
+
     
     // TODO: Update this as we go along adding more sections
-    let NUM_SECTIONS = 2
+    let NUM_SECTIONS = 3
     
     let DEALS_LABEL_TEXT = "Deals"
     
     let DEALS_HEADER_TEXT = "Looking for Deals?"
     let CUISINE_HEADER_TEXT = "Category"
+    let SORT_HEADER_TEXT = "Sort by"
+
+    
+    let SORT_LABEL_TEXT = ["Best Matched", "Distance", "Highest Rated"]
     
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
@@ -83,10 +89,22 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (section == SECTION_DEALS){
+        
+        /*if (section == SECTION_DEALS){
             return 1
         } else {
             return categories.count
+        }
+ */
+        switch section {
+        case SECTION_DEALS:
+            return 1
+        case SECTION_SORT:
+            return SORT_LABEL_TEXT.count
+        case SECTION_CUISINES:
+            return categories.count
+        default:
+            return 1
         }
     }
     
@@ -94,6 +112,8 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch(section) {
         case SECTION_DEALS :
             return DEALS_HEADER_TEXT
+        case SECTION_SORT:
+            return SORT_HEADER_TEXT
         case SECTION_CUISINES:
             return CUISINE_HEADER_TEXT
         default:
@@ -105,17 +125,38 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
         cell.delegate = self
         
+        switch indexPath.section {
+        case SECTION_DEALS:
+            cell.switchLabel.text = DEALS_LABEL_TEXT
+            cell.onSwitch.isOn = tempFilter.isDealsChecked
+        case SECTION_SORT:
+            cell.switchLabel.text = SORT_LABEL_TEXT[indexPath.row]
+            
+            if(indexPath.row == tempFilter.sortMode){
+                cell.radioButton.isSelected = true
+            }else {
+                cell.radioButton.isSelected = false
+            }
+            
+            cell.onSwitch.isHidden = true
+            cell.radioButton.isHidden = false
+            break
+        case SECTION_CUISINES:
+            cell.onSwitch.isHidden = false
+            cell.radioButton.isHidden = true
+            cell.switchLabel.text = categories[indexPath.row]["name"]
+            
+            if tempFilter.cuisineStates[indexPath.row] != nil {
+                cell.onSwitch.isOn = tempFilter.cuisineStates[indexPath.row]!
+            } else {
+                cell.onSwitch.isOn = false
+            }
+        default: break
+            
+        }
+        /*
         if(indexPath.section == SECTION_DEALS){
             cell.switchLabel.text = DEALS_LABEL_TEXT
-            
-            /*
-             if switchDealsState[true] != nil {
-             cell.onSwitch.isOn = switchDealsState[true]!
-             } else {
-             cell.onSwitch.isOn = currentFilters.isDealsChecked
-             
-             }
-             */
             cell.onSwitch.isOn = tempFilter.isDealsChecked
         }
         
@@ -127,15 +168,8 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             } else {
                 cell.onSwitch.isOn = false
             }
-            
-            /*
-             if switchCuisineStates[indexPath.row] != nil {
-             cell.onSwitch.isOn = switchCuisineStates[indexPath.row]!
-             }else {
-             cell.onSwitch.isOn = false
-             }
-             */
         }
+ */
         
         return cell
     }
@@ -144,13 +178,27 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         print("filters view controller got the switch event")
         let indexPath = tableView.indexPath(for: switchcell)
         
+        switch indexPath?.section {
+        case SECTION_DEALS?:
+            tempFilter.isDealsChecked = value
+        case SECTION_SORT?:
+            tempFilter.sortMode = (indexPath?.row)!
+            print("Setting tempFilter.sortMode : \(tempFilter.sortMode)")
+            self.tableView.reloadData()
+            break
+        case SECTION_DEALS?:
+            tempFilter.cuisineStates[(indexPath?.row)!] = value
+        default:
+            break
+        }
+
+        /*
         if(indexPath?.section == SECTION_DEALS){
             tempFilter.isDealsChecked = value
-            //switchDealsState[true] = value
         } else if(indexPath?.section == SECTION_CUISINES){
             tempFilter.cuisineStates[(indexPath?.row)!] = value
-            //switchCuisineStates[(indexPath?.row)!] = value
         }
+         */
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

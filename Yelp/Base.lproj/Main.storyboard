@@ -157,16 +157,43 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R6N-wz-azu"/>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgv-Bo-A2n" customClass="ISRadioButton" customModule="Yelp" customModuleProvider="target">
+                                                    <frame key="frameInset" minX="340" minY="20" width="15" height="25"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="iconStrokeWidth">
+                                                            <real key="value" value="1.7"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
+                                                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="indicatorSize">
+                                                            <real key="value" value="7.5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
+                                                            <real key="value" value="15"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="touchUpInsideButton:" destination="8BF-go-bRG" eventType="touchUpInside" id="HJN-gS-BPS"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="LLT-O5-3wi" firstAttribute="leading" secondItem="1MO-q2-cfg" secondAttribute="leading" constant="20" id="19f-oD-BVi"/>
                                                 <constraint firstItem="R6N-wz-azu" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="PKE-mF-TNa"/>
+                                                <constraint firstAttribute="trailing" secondItem="Vgv-Bo-A2n" secondAttribute="trailing" constant="20" id="aNg-nm-Uli"/>
                                                 <constraint firstAttribute="trailing" secondItem="R6N-wz-azu" secondAttribute="trailing" constant="20" id="aaN-MK-d1Y"/>
+                                                <constraint firstItem="Vgv-Bo-A2n" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="eGD-9E-BqJ"/>
+                                                <constraint firstItem="LLT-O5-3wi" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="lll-F6-1PU"/>
                                                 <constraint firstItem="LLT-O5-3wi" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="uGU-ol-VsY"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="onSwitch" destination="R6N-wz-azu" id="Cul-Jc-9pP"/>
+                                            <outlet property="radioButton" destination="Vgv-Bo-A2n" id="eRy-tD-Ahm"/>
                                             <outlet property="switchLabel" destination="LLT-O5-3wi" id="fLp-jJ-H9m"/>
                                         </connections>
                                     </tableViewCell>
