@@ -18,7 +18,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var shouldShowSearchResults = false
     var filter = Filter()
     var yelpCategories : [[String:String]]!
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,19 +153,31 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         self.filter = filter.copy() as! Filter
         print(" deals :  \(self.filter.isDealsChecked)")
         let categories = getCategoriesArray()
+        var yelpSortMode : YelpSortMode
         
-        Business.searchWithTerm(term: "Restaurants", sort: nil, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
+        switch self.filter.sortMode {
+        case 0:
+            yelpSortMode = YelpSortMode.bestMatched
+        case 1 :
+            yelpSortMode = YelpSortMode.distance
+        case 2:
+            yelpSortMode = YelpSortMode.highestRated
+        default:
+            yelpSortMode = YelpSortMode.bestMatched
+        }
+        
+        Business.searchWithTerm(term: "Restaurants", sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
             self.businesses = businesses
             self.tableView.reloadData()
         }
         
         /*let categories = filters["categories"] as? [String]
-        
-        Business.searchWithTerm(term: "Restaurants", sort: nil, categories: categories, deals: nil) { (businesses : [Business]?,error :  Error?) in
-            self.businesses = businesses
-            self.tableView.reloadData()
-        }
- */
+         
+         Business.searchWithTerm(term: "Restaurants", sort: nil, categories: categories, deals: nil) { (businesses : [Business]?,error :  Error?) in
+         self.businesses = businesses
+         self.tableView.reloadData()
+         }
+         */
     }
     
     private func getCategoriesArray() -> [String] {

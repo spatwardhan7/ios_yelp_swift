@@ -22,10 +22,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="BusinessCell" rowHeight="131" id="05v-Lx-Gc5" customClass="BusinessCell" customModule="Yelp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="1000" height="131"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="131"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="05v-Lx-Gc5" id="KKp-fm-7x4">
-                                            <frame key="frameInset" width="1000" height="131"/>
+                                            <frame key="frameInset" width="375" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PYc-b0-1kt">
@@ -148,7 +148,7 @@
                                         <rect key="frame" x="0.0" y="120" width="375" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8BF-go-bRG" id="1MO-q2-cfg">
-                                            <frame key="frameInset" width="375" height="65"/>
+                                            <frame key="frameInset" width="375" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLT-O5-3wi">
@@ -157,8 +157,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R6N-wz-azu"/>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgv-Bo-A2n" customClass="ISRadioButton" customModule="Yelp" customModuleProvider="target">
-                                                    <frame key="frameInset" minX="340" minY="20" width="15" height="25"/>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgv-Bo-A2n" customClass="ISRadioButton" customModule="Yelp" customModuleProvider="target">
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
                                                             <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -183,12 +182,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="LLT-O5-3wi" firstAttribute="leading" secondItem="1MO-q2-cfg" secondAttribute="leading" constant="20" id="19f-oD-BVi"/>
+                                                <constraint firstAttribute="trailing" secondItem="Vgv-Bo-A2n" secondAttribute="trailing" constant="29" id="6nN-wY-PYv"/>
                                                 <constraint firstItem="R6N-wz-azu" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="PKE-mF-TNa"/>
-                                                <constraint firstAttribute="trailing" secondItem="Vgv-Bo-A2n" secondAttribute="trailing" constant="20" id="aNg-nm-Uli"/>
                                                 <constraint firstAttribute="trailing" secondItem="R6N-wz-azu" secondAttribute="trailing" constant="20" id="aaN-MK-d1Y"/>
-                                                <constraint firstItem="Vgv-Bo-A2n" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="eGD-9E-BqJ"/>
+                                                <constraint firstItem="LLT-O5-3wi" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="ePb-vx-0Rw"/>
                                                 <constraint firstItem="LLT-O5-3wi" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="lll-F6-1PU"/>
                                                 <constraint firstItem="LLT-O5-3wi" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="uGU-ol-VsY"/>
+                                                <constraint firstItem="Vgv-Bo-A2n" firstAttribute="centerY" secondItem="1MO-q2-cfg" secondAttribute="centerY" id="uKF-hp-R0L"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

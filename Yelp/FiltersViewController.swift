@@ -185,8 +185,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             tempFilter.sortMode = (indexPath?.row)!
             print("Setting tempFilter.sortMode : \(tempFilter.sortMode)")
             self.tableView.reloadData()
-            break
-        case SECTION_DEALS?:
+        case SECTION_CUISINES?:
             tempFilter.cuisineStates[(indexPath?.row)!] = value
         default:
             break
