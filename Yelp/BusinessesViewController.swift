@@ -15,8 +15,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var tableView: UITableView!
     var isMoreDataLoading = false
     let searchBar = UISearchBar()
-    var shouldShowSearchResults = false
     var filter = Filter()
+    var searchTerm = ""
     var yelpCategories : [[String:String]]!
     var yelpDistances : [Int : Double]!
     
@@ -35,7 +35,6 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         // Call Yelp Search API
         networkCall()
-        
     }
     
     func createSearchBar(){
@@ -44,28 +43,15 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         self.navigationItem.titleView = searchBar
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredBusinesses = businesses?.filter({(business: Business) -> Bool in
-            let businessName = business.name
-            return businessName!.lowercased().range(of: searchText.lowercased()) != nil
-            
-        })
-        
-        if searchText != ""{
-            shouldShowSearchResults = true
-            tableView.reloadData()
-        } else {
-            shouldShowSearchResults = false
-            tableView.reloadData()
-        }
-    }
-    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         searchBar.endEditing(true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        shouldShowSearchResults = true
+        if ((searchBar.text) != nil) {
+            searchTerm = searchBar.text!
+            networkCall()
+        }
         searchBar.endEditing(true)
         tableView.reloadData()
     }
@@ -76,13 +62,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if businesses != nil {
-            if shouldShowSearchResults{
-                return (filteredBusinesses?.count)!
-            }
-            else {
-                return businesses.count
-            }
-            
+            return businesses.count
         } else {
             return 0
         }
@@ -91,11 +71,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BusinessCell", for: indexPath) as! BusinessCell
         
-        if shouldShowSearchResults {
-            cell.business = filteredBusinesses?[indexPath.row]
-        } else {
-            cell.business = businesses[indexPath.row]
-        }
+        cell.business = businesses[indexPath.row]
         
         return cell
     }
@@ -147,7 +123,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         }
         
         let distanceInMeters = getDistanceInMeters()
-        Business.searchWithTerm(term: "",distance : distanceInMeters ,sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
+        Business.searchWithTerm(term: searchTerm,distance : distanceInMeters ,sort: yelpSortMode, categories: categories, deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
             self.businesses = businesses
             self.tableView.reloadData()
             
