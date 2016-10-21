@@ -20,6 +20,7 @@
 		EE9B36A31DB702580002C2D9 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B36A21DB702580002C2D9 /* BusinessCell.swift */; };
 		EE9B36A51DB74C1F0002C2D9 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B36A41DB74C1F0002C2D9 /* SwitchCell.swift */; };
 		EE9B36A71DB74E100002C2D9 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B36A61DB74E100002C2D9 /* FiltersViewController.swift */; };
+		EEB6E15A1DB95F8C00C1287B /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB6E1591DB95F8C00C1287B /* Filter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		EE9B36A21DB702580002C2D9 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		EE9B36A41DB74C1F0002C2D9 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		EE9B36A61DB74E100002C2D9 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		EEB6E1591DB95F8C00C1287B /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		EF53DC2D7A8303A68532E7C6 /* Pods-Yelp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yelp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yelp/Pods-Yelp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				22AAAA981AEA0A9700A544AF /* Business.swift */,
+				EEB6E1591DB95F8C00C1287B /* Filter.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE9B36A31DB702580002C2D9 /* BusinessCell.swift in Sources */,
+				EEB6E15A1DB95F8C00C1287B /* Filter.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				EE9B36A71DB74E100002C2D9 /* FiltersViewController.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,

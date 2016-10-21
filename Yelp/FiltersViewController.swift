@@ -9,16 +9,26 @@
 import UIKit
 
 @objc  protocol FiltersViewControllerDelegate{
-    @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String: AnyObject])
+    @objc optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filter: Filter)
 }
 
 class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource , SwitchCellDelegate{
     
+    let SECTION_DEALS = 0
+    let SECTION_CUISINES = 1
+    
+    // TODO: Update this as we go along adding more sections
+    let NUM_SECTIONS = 2
+    
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
+    var currentFilter: Filter!
+    var tempFilter: Filter!
     
     var categories : [[String:String]]!
-    var switchStates = [Int:Bool]()
+    //var switchCuisineStates = [Int:Bool]()
+    //var switchDealsState = [Bool:Bool]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +37,8 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         
-        
+        //tempFilter = currentFilter
+        tempFilter = currentFilter.copy() as! Filter
         // Do any additional setup after loading the view.
     }
     
@@ -39,10 +50,12 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func onSearchButton(_ sender: AnyObject) {
         dismiss(animated: true, completion: nil)
         
+        
+        /*
         var filters = [String: AnyObject]()
         
         var selectedCategories = [String]()
-        for (row,isSelected) in switchStates {
+        for (row,isSelected) in switchCuisineStates {
             if isSelected{
                 selectedCategories.append(categories[row]["code"]!)
             }
@@ -51,9 +64,13 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         if selectedCategories.count > 0 {
             filters["categories"] = selectedCategories as AnyObject?
         }
+ 
         
         
         delegate?.filtersViewController!(filtersViewController: self, didUpdateFilters: filters)
+ */
+        
+        delegate?.filtersViewController!(filtersViewController: self, didUpdateFilters: tempFilter)
     }
     
     @IBAction func onCancelButton(_ sender: AnyObject) {
@@ -61,29 +78,67 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        if (section == SECTION_DEALS){
+            return 1
+        } else {
+            return categories.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
-        
-        cell.switchLabel.text = categories[indexPath.row]["name"]
         cell.delegate = self
         
-        if switchStates[indexPath.row] != nil {
-            cell.onSwitch.isOn = switchStates[indexPath.row]!
-        }else {
-            cell.onSwitch.isOn = false
+        if(indexPath.section == SECTION_DEALS){
+            cell.switchLabel.text = "Deals"
+            
+            /*
+            if switchDealsState[true] != nil {
+                cell.onSwitch.isOn = switchDealsState[true]!
+            } else {
+                cell.onSwitch.isOn = currentFilters.isDealsChecked
+                
+            }
+            */
+            cell.onSwitch.isOn = tempFilter.isDealsChecked
+        }
+        
+        if(indexPath.section == SECTION_CUISINES) {
+            cell.switchLabel.text = categories[indexPath.row]["name"]
+            
+            if tempFilter.cuisineStates[indexPath.row] != nil {
+                cell.onSwitch.isOn = tempFilter.cuisineStates[indexPath.row]!
+            } else {
+                cell.onSwitch.isOn = false
+            }
+            
+            /*
+            if switchCuisineStates[indexPath.row] != nil {
+                cell.onSwitch.isOn = switchCuisineStates[indexPath.row]!
+            }else {
+                cell.onSwitch.isOn = false
+            }
+            */
         }
         
         return cell
     }
     
     func switchCell(switchcell: SwitchCell, didChangeValue value: Bool) {
+        print("filters view controller got the switch event")
         let indexPath = tableView.indexPath(for: switchcell)
         
-        switchStates[(indexPath?.row)!] = value
-        print("filters view controller got the switch event")
+        if(indexPath?.section == SECTION_DEALS){
+            tempFilter.isDealsChecked = value
+            //switchDealsState[true] = value
+        } else if(indexPath?.section == SECTION_CUISINES){
+            tempFilter.cuisineStates[(indexPath?.row)!] = value
+            //switchCuisineStates[(indexPath?.row)!] = value
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return NUM_SECTIONS
     }
     
     func yelpCategories() -> [[String: String]]{
