@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
+class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, FiltersViewControllerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var businesses: [Business]!
@@ -99,6 +99,11 @@ class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelega
         
     }
     
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filter: Filter) {
+        self.filter = filter.copy() as! Filter
+        networkCall()
+    }
+    
     private func networkCall(){
         let categories = getCategoriesArray()
         var yelpSortMode : YelpSortMode
@@ -158,15 +163,13 @@ class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelega
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-            print("Back from Map Segue")
-            /*
-            let mapsViewController = segue.destination as! MapsViewController
-            mapsViewController.businesses = self.businesses
-            mapsViewController.filter = self.filter
-            mapsViewController.searchTerm = self.searchTerm
- */
+        if (segue.identifier == "filterFromMapSegue"){
+            let navigationController = segue.destination as! UINavigationController
+            let filtersViewController = navigationController.topViewController as! FiltersViewController
+            
+            filtersViewController.currentFilter = filter
+            filtersViewController.delegate = self
+        }
     
         
     }

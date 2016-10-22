@@ -274,14 +274,20 @@
                             <constraint firstItem="1rk-mX-VI5" firstAttribute="top" secondItem="10D-mk-vNf" secondAttribute="bottom" id="vHq-tt-Dih"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="IHA-vs-D0o"/>
+                    <navigationItem key="navigationItem" id="IHA-vs-D0o">
+                        <barButtonItem key="rightBarButtonItem" title="Filters" id="5Yf-DD-OvC">
+                            <connections>
+                                <segue destination="KTK-6s-kpz" kind="modal" identifier="filterFromMapSegue" id="6WC-wc-Qjx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="1rk-mX-VI5" id="Xfd-UL-C4u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wph-wO-uYK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2308" y="-326"/>
+            <point key="canvasLocation" x="2311" y="-444"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aGs-5H-wg5">
@@ -307,4 +313,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="6WC-wc-Qjx"/>
+    </inferredMetricsTieBreakers>
 </document>
