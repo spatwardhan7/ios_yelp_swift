@@ -239,6 +239,14 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             mapsViewController.businesses = self.businesses
             mapsViewController.filter = self.filter
             mapsViewController.searchTerm = self.searchTerm
+        } else if (segue.identifier == "detailsSegue"){
+            let cell = sender as! BusinessCell
+            let indexPath = tableView.indexPath(for: cell)
+            let detailBusiness = businesses![(indexPath! as NSIndexPath).row]
+            
+            let detailsViewController = segue.destination as! DetailsViewController
+            
+            detailsViewController.business = detailBusiness
         }
     }
     

@@ -23,6 +23,8 @@ class Business: NSObject, MKAnnotation{
     var subtitle : String?
     var title : String?
     var deals : [AnyObject]?
+    var phone : String?
+    var mobileURL : String?
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
@@ -102,6 +104,20 @@ class Business: NSObject, MKAnnotation{
             deals = dealsObj
         } else {
             deals = nil
+        }
+        
+        let displayPhoneString = dictionary["display_phone"] as? String
+        if displayPhoneString != nil {
+            phone = displayPhoneString
+        } else {
+            phone = nil
+        }
+        
+        let mobileURLString = dictionary["url"] as? String
+        if mobileURLString != nil {
+            mobileURL = mobileURLString
+        } else {
+            mobileURL = nil
         }
         
         coordinate = CLLocationCoordinate2D()
