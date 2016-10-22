@@ -19,10 +19,10 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var dealsImageView: UIImageView!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var phoneImageView: UIImageView!
-    @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var urlLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var phoneLabel: UIButton!
     
     var business : Business!
     
@@ -43,7 +43,8 @@ class DetailsViewController: UIViewController {
         ratingsLabel.text = "\(business.reviewCount!) Reviews"
         distanceLabel.text = business.distance
         ratingsImageView.setImageWith(business.ratingImageURL!)
-        phoneLabel.text = business.phone
+        //phoneLabel.text = business.phone
+        phoneLabel.setTitle(business.phone, for: UIControlState.application)
         urlLabel.text = business.mobileURL?.components(separatedBy: "?")[0]
         
         if(business.deals != nil){
@@ -77,6 +78,13 @@ class DetailsViewController: UIViewController {
         let span = MKCoordinateSpanMake(0.075, 0.075)
         let coordinateRegion  = MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), span)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    
+    @IBAction func phoneButtonPressed(_ sender: AnyObject) {
+        if let url = NSURL(string: "tel://\(business.phone)"){
+            UIApplication.shared.openURL(url as URL)
+        }
     }
 
     override func didReceiveMemoryWarning() {
