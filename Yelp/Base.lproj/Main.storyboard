@@ -263,9 +263,21 @@
                     <view key="view" contentMode="scaleToFill" id="G6l-I5-yMx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="1rk-mX-VI5"/>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="1rk-mX-VI5" secondAttribute="trailing" id="8kr-3P-uha"/>
+                            <constraint firstItem="FSa-23-IBM" firstAttribute="top" secondItem="1rk-mX-VI5" secondAttribute="bottom" id="esb-0w-2fe"/>
+                            <constraint firstItem="1rk-mX-VI5" firstAttribute="leading" secondItem="G6l-I5-yMx" secondAttribute="leading" id="p2Y-M1-WbF"/>
+                            <constraint firstItem="1rk-mX-VI5" firstAttribute="top" secondItem="10D-mk-vNf" secondAttribute="bottom" id="vHq-tt-Dih"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="IHA-vs-D0o"/>
+                    <connections>
+                        <outlet property="mapView" destination="1rk-mX-VI5" id="Xfd-UL-C4u"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wph-wO-uYK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

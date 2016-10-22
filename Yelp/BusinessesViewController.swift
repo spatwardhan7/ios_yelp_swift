@@ -182,8 +182,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             } else {
                 self.businesses = businesses
                 self.tableView.reloadData()
-                let indexPath = IndexPath(row: 0, section: 0)
-                self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated:true)
+                
+                // Commenting out to prevent crash
+                //let indexPath = IndexPath(row: 0, section: 0)
+                //self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated:true)
             }
             
             if(self.pullToRefresh){
@@ -198,6 +200,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
                 for business in businesses {
                     print(business.name!)
                     print(business.address!)
+                    print(business.latitude!)
+                    print(business.longitude!)
                 }
             }
         }
@@ -231,6 +235,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             filtersViewController.delegate = self
         } else if (segue.identifier == "mapSegue"){
             print("Map Segue")
+            let mapsViewController = segue.destination as! MapsViewController
+            mapsViewController.businesses = self.businesses
+            mapsViewController.filter = self.filter
+            mapsViewController.searchTerm = self.searchTerm
         }
     }
     
