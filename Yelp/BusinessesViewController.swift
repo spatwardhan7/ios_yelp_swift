@@ -22,6 +22,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var yelpCategories : [[String:String]]!
     var yelpDistances : [Int : Double]!
     static var offset = 0
+    var pullToRefresh : Bool = false
+    let refreshControl = UIRefreshControl()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +36,24 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         initInfiniteScrollIndicator()
         
+        initRefreshControl()
+
         yelpCategories = DataHelper.initYelpCategories()
         yelpDistances = DataHelper.initDistanceMapper()
         createSearchBar()
         
         // Call Yelp Search API
+        networkCall()
+    }
+    
+    func initRefreshControl(){
+                //refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(self.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+    }
+    
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        pullToRefresh = true
         networkCall()
     }
     
@@ -147,7 +163,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         let localOffset = BusinessesViewController.offset
         
-        if(localOffset == 0 ){
+        if(pullToRefresh){
+            // empty
+        } else if(localOffset == 0 ){
             self.tableView.alpha = 0
             MBProgressHUD.showAdded(to: self.view, animated: true)
         }
@@ -166,6 +184,11 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
                 self.tableView.reloadData()
                 let indexPath = IndexPath(row: 0, section: 0)
                 self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated:true)
+            }
+            
+            if(self.pullToRefresh){
+                self.pullToRefresh = false
+                self.refreshControl.endRefreshing()
             }
             
             MBProgressHUD.hide(for: self.view, animated: true)
