@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import MBProgressHUD
 
 class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, FiltersViewControllerDelegate {
 
@@ -120,6 +121,8 @@ class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelega
         }
         
         let distanceInMeters = getDistanceInMeters()
+        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         Business.searchWithTerm(term: searchTerm,distance : distanceInMeters ,sort: yelpSortMode, categories: categories, offset : nil ,deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
             
             self.mapView.removeAnnotations(self.businesses)
@@ -127,10 +130,7 @@ class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelega
             self.businesses = businesses
             
             self.addAnnotations(businesses: self.businesses)
-        
     
-            
-            
             if let businesses = businesses {
                 for business in businesses {
                     print(business.name!)
@@ -140,6 +140,8 @@ class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelega
                 }
             }
         }
+        MBProgressHUD.hide(for: self.view, animated: true)
+
     }
     
     private func getDistanceInMeters() -> Double {
