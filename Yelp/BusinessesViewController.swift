@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate, UIScrollViewDelegate, UISearchBarDelegate {
     
@@ -64,6 +65,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if ((searchBar.text) != nil) {
+            BusinessesViewController.offset = 0
             searchTerm = searchBar.text!
             networkCall()
         }
@@ -145,6 +147,11 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         let localOffset = BusinessesViewController.offset
         
+        if(localOffset == 0 ){
+            self.tableView.alpha = 0
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+        }
+        
         let distanceInMeters = getDistanceInMeters()
         Business.searchWithTerm(term: searchTerm,distance : distanceInMeters ,sort: yelpSortMode, categories: categories, offset : localOffset ,deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
             
@@ -152,12 +159,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
                 self.isMoreDataLoading = false
                 self.loadingMoreView?.stopAnimating()
                 self.businesses.append(contentsOf: businesses!)
+                // TODO : dont reload entire table but only new rows
+                self.tableView.reloadData()
             } else {
                 self.businesses = businesses
+                self.tableView.reloadData()
+                let indexPath = IndexPath(row: 0, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated:true)
             }
             
-            self.tableView.reloadData()
-            
+            MBProgressHUD.hide(for: self.view, animated: true)
+            self.tableView.alpha = 1
+
             if let businesses = businesses {
                 for business in businesses {
                     print(business.name!)
