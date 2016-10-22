@@ -24,7 +24,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     static var offset = 0
     var pullToRefresh : Bool = false
     let refreshControl = UIRefreshControl()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         initInfiniteScrollIndicator()
         
         initRefreshControl()
-
+        
         yelpCategories = DataHelper.initYelpCategories()
         yelpDistances = DataHelper.initDistanceMapper()
         createSearchBar()
@@ -47,7 +47,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func initRefreshControl(){
-                //refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
+        //refreshControl.addTarget(self, action: #selector(refreshControlAction(refreshControl:)), for: UIControlEvents.valueChanged)
         refreshControl.addTarget(self, action: #selector(self.refreshControlAction(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
     }
@@ -193,7 +193,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             
             MBProgressHUD.hide(for: self.view, animated: true)
             self.tableView.alpha = 1
-
+            
             if let businesses = businesses {
                 for business in businesses {
                     print(business.name!)
@@ -223,11 +223,16 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let navigationController = segue.destination as! UINavigationController
-        let filtersViewController = navigationController.topViewController as! FiltersViewController
-        
-        filtersViewController.currentFilter = filter
-        filtersViewController.delegate = self
+        if (segue.identifier == "filterSegue"){
+            let navigationController = segue.destination as! UINavigationController
+            let filtersViewController = navigationController.topViewController as! FiltersViewController
+            
+            filtersViewController.currentFilter = filter
+            filtersViewController.delegate = self
+        } else if (segue.identifier == "mapSegue"){
+            print("Map Segue")
+        }
     }
+    
     
 }

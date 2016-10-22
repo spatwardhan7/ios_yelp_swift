@@ -118,7 +118,12 @@
                     <navigationItem key="navigationItem" title="Yelp" id="goq-3u-Med">
                         <barButtonItem key="leftBarButtonItem" title="Filters" id="jbT-rF-24c">
                             <connections>
-                                <segue destination="KTK-6s-kpz" kind="modal" id="nGe-GG-ZTG"/>
+                                <segue destination="KTK-6s-kpz" kind="modal" identifier="filterSegue" id="nGe-GG-ZTG"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="5KK-JQ-tYN">
+                            <connections>
+                                <segue destination="Nqm-r0-3bn" kind="push" identifier="mapSegue" id="Zj6-yP-R6x"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -146,10 +151,10 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="65" id="8BF-go-bRG" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="120" width="375" height="65"/>
+                                        <rect key="frame" x="0.0" y="120" width="1000" height="65"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8BF-go-bRG" id="1MO-q2-cfg">
-                                            <frame key="frameInset" width="375" height="65"/>
+                                            <frame key="frameInset" width="1000" height="65"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLT-O5-3wi">
@@ -246,6 +251,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0rR-j2-iJH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1117.5" y="397.5"/>
+        </scene>
+        <!--Maps View Controller-->
+        <scene sceneID="LcT-jW-Hao">
+            <objects>
+                <viewController id="Nqm-r0-3bn" customClass="MapsViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="10D-mk-vNf"/>
+                        <viewControllerLayoutGuide type="bottom" id="FSa-23-IBM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="G6l-I5-yMx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="IHA-vs-D0o"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wph-wO-uYK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2308" y="-326"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aGs-5H-wg5">
