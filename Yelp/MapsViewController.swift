@@ -9,17 +9,21 @@
 import UIKit
 import MapKit
 
-class MapsViewController: UIViewController, MKMapViewDelegate {
+class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     var businesses: [Business]!
     var filter : Filter!
     var searchTerm = ""
     
-    
     let regionRadius: CLLocationDistance = 500
     let initialLocation = CLLocation(latitude: 37.785771, longitude: -122.406165)
 
+    let searchBar = UISearchBar()
+    
+    
+    var yelpCategories = DataHelper.initYelpCategories()
+    var yelpDistances = DataHelper.initDistanceMapper()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +33,32 @@ class MapsViewController: UIViewController, MKMapViewDelegate {
             addAnnotations(businesses: businesses)
             
         }
-        
+        createSearchBar()
         centerMapOnLocation(location: initialLocation)
         // Do any additional setup after loading the view.
+    }
+    
+    func createSearchBar(){
+        searchBar.delegate = self
+        searchBar.placeholder = "Search"
+        searchBar.text = searchTerm
+        self.navigationItem.titleView = searchBar
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        searchBar.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if ((searchBar.text) != nil) {
+            searchTerm = searchBar.text!
+            networkCall()
+        }
+        searchBar.endEditing(true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
     }
     
     func addAnnotations(businesses : [Business]){
@@ -39,10 +66,6 @@ class MapsViewController: UIViewController, MKMapViewDelegate {
     }
     
     func centerMapOnLocation(location: CLLocation) {
-        /*
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-                                                                  regionRadius * 2.0,regionRadius * 2.0)
- */
         let span = MKCoordinateSpanMake(0.075, 0.075)
 
         let coordinateRegion  = MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), span)
@@ -76,15 +99,76 @@ class MapsViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    private func networkCall(){
+        let categories = getCategoriesArray()
+        var yelpSortMode : YelpSortMode
+        
+        switch self.filter.sortMode {
+        case 0:
+            yelpSortMode = YelpSortMode.bestMatched
+        case 1 :
+            yelpSortMode = YelpSortMode.distance
+        case 2:
+            yelpSortMode = YelpSortMode.highestRated
+        default:
+            yelpSortMode = YelpSortMode.bestMatched
+        }
+        
+        let distanceInMeters = getDistanceInMeters()
+        Business.searchWithTerm(term: searchTerm,distance : distanceInMeters ,sort: yelpSortMode, categories: categories, offset : nil ,deals: self.filter.isDealsChecked) { (businesses : [Business]?,error :  Error?) in
+            
+            self.mapView.removeAnnotations(self.businesses)
+            
+            self.businesses = businesses
+            
+            self.addAnnotations(businesses: self.businesses)
+        
+    
+            
+            
+            if let businesses = businesses {
+                for business in businesses {
+                    print(business.name!)
+                    print(business.address!)
+                    print(business.latitude!)
+                    print(business.longitude!)
+                }
+            }
+        }
+    }
+    
+    private func getDistanceInMeters() -> Double {
+        let distanceInMiles = yelpDistances[self.filter.distance]!
+        return distanceInMiles * 1609.34
+    }
+    
+    private func getCategoriesArray() -> [String] {
+        var selectedCategories = [String]()
+        for (row,isSelected) in self.filter.cuisineStates {
+            if isSelected{
+                selectedCategories.append(yelpCategories[row]["code"]!)
+                print("Selected Category: \(yelpCategories[row]["code"]!)")
+            }
+        }
+        
+        return selectedCategories
+    }
+    
 
-    /*
-    // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+            print("Back from Map Segue")
+            /*
+            let mapsViewController = segue.destination as! MapsViewController
+            mapsViewController.businesses = self.businesses
+            mapsViewController.filter = self.filter
+            mapsViewController.searchTerm = self.searchTerm
+ */
+    
+        
     }
-    */
 
 }
