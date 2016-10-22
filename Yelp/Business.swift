@@ -22,6 +22,7 @@ class Business: NSObject, MKAnnotation{
     var coordinate: CLLocationCoordinate2D
     var subtitle : String?
     var title : String?
+    var deals : [AnyObject]?
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
@@ -95,6 +96,12 @@ class Business: NSObject, MKAnnotation{
             longitude = longLoc!
         } else {
             longitude = nil
+        }
+        
+        if let dealsObj = dictionary["deals"] as? [AnyObject] {
+            deals = dealsObj
+        } else {
+            deals = nil
         }
         
         coordinate = CLLocationCoordinate2D()

@@ -16,6 +16,7 @@ class BusinessCell: UITableViewCell {
     @IBOutlet weak var reviewsCountLabel: UILabel!
     @IBOutlet weak var categoriesLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var dealImage: UIImageView!
     
     var business : Business! {
         didSet{
@@ -25,6 +26,10 @@ class BusinessCell: UITableViewCell {
             reviewsCountLabel.text = "\(business.reviewCount!) Reviews"
             distanceLabel.text = business.distance
             ratingImageView.setImageWith(business.ratingImageURL!)
+            
+            if(business.deals != nil){
+                dealImage.isHidden = false
+            }
             
             if business.imageURL != nil {
                 let imageUrlRequest = URLRequest(url: business.imageURL!)
