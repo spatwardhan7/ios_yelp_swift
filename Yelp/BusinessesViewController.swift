@@ -28,6 +28,13 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.shared.statusBarStyle = .lightContent
+
+        self.navigationController?.navigationBar.barTintColor =  UIColor(red: (211/255.0), green: (35/255.0), blue: (35/255.0), alpha: 1.0)
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.tintColor = UIColor.white;
+
         
         tableView.delegate = self
         tableView.dataSource = self

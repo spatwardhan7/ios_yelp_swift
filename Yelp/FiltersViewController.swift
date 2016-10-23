@@ -47,6 +47,12 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.barTintColor =  UIColor(red: (211/255.0), green: (35/255.0), blue: (35/255.0), alpha: 1.0)
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+
+        
+        
         categories = DataHelper.initYelpCategories()
         tableView.delegate = self
         tableView.dataSource = self

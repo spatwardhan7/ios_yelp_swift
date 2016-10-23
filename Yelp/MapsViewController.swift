@@ -28,6 +28,9 @@ class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.barTintColor =  UIColor(red: (211/255.0), green: (35/255.0), blue: (35/255.0), alpha: 1.0)
+        self.navigationController?.navigationBar.tintColor = UIColor.white;
         mapView.delegate = self
         if(businesses != nil && filter != nil){
             print("Received businesses and filter from list view")

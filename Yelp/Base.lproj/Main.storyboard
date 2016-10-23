@@ -120,11 +120,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Yelp" id="goq-3u-Med">
                         <barButtonItem key="leftBarButtonItem" title="Filters" id="jbT-rF-24c">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="KTK-6s-kpz" kind="modal" identifier="filterSegue" id="nGe-GG-ZTG"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Map" id="5KK-JQ-tYN">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="Nqm-r0-3bn" kind="push" identifier="mapSegue" id="Zj6-yP-R6x"/>
                             </connections>
@@ -190,11 +192,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Filters" id="Xhc-rs-sDa">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="wO5-xf-VYC">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onCancelButton:" destination="pJD-x6-HIJ" id="1v3-G4-ogP"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Search" id="OOj-jt-ifq">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="onSearchButton:" destination="pJD-x6-HIJ" id="9d2-cJ-T0C"/>
                             </connections>
@@ -432,6 +436,6 @@
         <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6WC-wc-Qjx"/>
+        <segue reference="nGe-GG-ZTG"/>
     </inferredMetricsTieBreakers>
 </document>
