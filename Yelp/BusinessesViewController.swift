@@ -196,14 +196,15 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             MBProgressHUD.hide(for: self.view, animated: true)
             self.tableView.alpha = 1
             
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
-                    print(business.latitude!)
-                    print(business.longitude!)
-                }
-            }
+            
+//            if let businesses = businesses {
+//                for business in businesses {
+//                    print(business.name!)
+//                    print(business.address!)
+//                    print(business.latitude!)
+//                    print(business.longitude!)
+//                }
+//            }
         }
     }
     

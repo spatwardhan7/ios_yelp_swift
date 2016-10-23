@@ -33,6 +33,9 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var isDistanceOpened : Bool = false
     var isSortOpened : Bool = false
+    var isCuisineOpened : Bool = false
+    var visibleCuisines = 3
+    var totalCuisines : Int = DataHelper.initYelpCategories().count
     
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
@@ -47,7 +50,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         categories = DataHelper.initYelpCategories()
         tableView.delegate = self
         tableView.dataSource = self
-        
+            
         //tempFilter = currentFilter
         tempFilter = currentFilter.copy() as! Filter
         // Do any additional setup after loading the view.
@@ -85,7 +88,16 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return 1
             }
         case SECTION_CUISINES:
-            return categories.count
+            if(isCuisineOpened){
+                return categories.count
+            }
+//            else {
+//                if(visibleCuisines > 0 && visibleCuisines < totalCuisines){
+//                    return visibleCuisines + 1 // + 1 for "See All" row
+//                }
+        
+                return visibleCuisines + 1
+            
         default:
             return 1
         }
@@ -112,56 +124,80 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         switch indexPath.section {
         case SECTION_DEALS:
-            cell.onSwitch.isHidden = false
-            cell.radioButton.isHidden = true
-            
-            cell.switchLabel.text = DEALS_LABEL_TEXT
-            cell.onSwitch.isOn = tempFilter.isDealsChecked
+//            cell.onSwitch.isHidden = false
+//            cell.radioButton.isHidden = true
+//            
+//            cell.switchLabel.text = DEALS_LABEL_TEXT
+//            cell.onSwitch.isOn = tempFilter.isDealsChecked
+            break
         case SECTION_DISTANCE:
             if(isDistanceOpened){
                 cell.switchLabel.text = DISTANCE_LABEL_TEXT[indexPath.row]
                 if(indexPath.row == tempFilter.distance){
-                    cell.radioButton.isSelected = true
+                    cell.accessoryView = UIImageView(image : UIImage(named : "check-mark-5-16"))
                 }else {
-                    cell.radioButton.isSelected = false
+                    cell.accessoryView = UIImageView(image : UIImage(named : "empty-circle-2-16"))
                 }
             } else {
                 cell.switchLabel.text = DISTANCE_LABEL_TEXT[tempFilter.distance]
-                cell.radioButton.isSelected = true
+                cell.accessoryView = UIImageView(image : UIImage(named : "arrow-27-16"))
             }
-
-            cell.onSwitch.isHidden = true
-            cell.radioButton.isHidden = false
         case SECTION_SORT:
             if(isSortOpened){
                 cell.switchLabel.text = SORT_LABEL_TEXT[indexPath.row]
                 if(indexPath.row == tempFilter.sortMode){
-                    cell.radioButton.isSelected = true
+                    cell.accessoryView = UIImageView(image : UIImage(named : "check-mark-5-16"))
                 }else {
-                    cell.radioButton.isSelected = false
+                    cell.accessoryView = UIImageView(image : UIImage(named : "empty-circle-2-16"))
                 }
             } else {
                 cell.switchLabel.text = SORT_LABEL_TEXT[tempFilter.sortMode]
-                cell.radioButton.isSelected = true
+                cell.accessoryView = UIImageView(image : UIImage(named : "arrow-27-16"))
             }
-        
-            cell.onSwitch.isHidden = true
-            cell.radioButton.isHidden = false
             break
         case SECTION_CUISINES:
-            cell.onSwitch.isHidden = false
-            cell.radioButton.isHidden = true
-            cell.switchLabel.text = categories[indexPath.row]["name"]
+            if(isCuisineOpened || indexPath.row < visibleCuisines){
+                cell.textLabel?.text = ""
+                cell.textLabel?.textAlignment = NSTextAlignment.left
+                
+                cell.switchLabel.text = categories[indexPath.row]["name"]
+                if tempFilter.cuisineStates[indexPath.row] != nil {
+                    //print("cellForRowAt - cuisine state not nil")
+                    let switchState : Bool = tempFilter.cuisineStates[indexPath.row]!
+                    //print("cellForRowAt -- cuisine state is : \(switchState)")
+                    if(switchState == true){
+                        cell.accessoryView = UIImageView(image : UIImage(named : "check-mark-5-16"))
+                    }else {
+                        cell.accessoryView = UIImageView(image : UIImage(named : "empty-circle-2-16"))
+                    }
+                } else {
+                    //print("cellForRowAt - cuisine state nil at index : \(indexPath.row) , setting empty image and name: \(categories[indexPath.row]["name"])")
+                    cell.accessoryView = UIImageView(image : UIImage(named : "empty-circle-2-16"))
+                }
             
-            if tempFilter.cuisineStates[indexPath.row] != nil {
-                cell.onSwitch.isOn = tempFilter.cuisineStates[indexPath.row]!
             } else {
-                cell.onSwitch.isOn = false
+                //print("cellForRowAt - See All printed at index: \(indexPath.row)")
+                cell.textLabel?.text = "See All"
+                cell.textLabel?.textAlignment = NSTextAlignment.center
             }
+            break
         default: break
             
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch indexPath.section {
+        case SECTION_DISTANCE:
+            handleViews(didSelectRowAt: indexPath)
+        case SECTION_SORT:
+            handleViews(didSelectRowAt: indexPath)
+        case SECTION_CUISINES:
+            handleViews(didSelectRowAt: indexPath)
+        default: break
+        }
     }
     
     func handleViews(didSelectRowAt indexPath: IndexPath){
@@ -209,30 +245,54 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             } else {
                 self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
             }
+        
+        case SECTION_CUISINES:
+            if(!isCuisineOpened && indexPath.row == visibleCuisines){
+                //print("handleViews --- cuisine was not open. clicked on see all")
+                isCuisineOpened = true
+                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+                
+            } else {
+                //print("handleViews ---- cuisine was open.")
+                if(tempFilter.cuisineStates[(indexPath.row)] != nil ){
+                    //print("handleViews ----- cuisine state not nil")
+                    let oldState : Bool = tempFilter.cuisineStates[(indexPath.row)]!
+                    //print("handleViews ------ cuisine state value : \(oldState) ")
+                    tempFilter.cuisineStates[(indexPath.row)] = !oldState
+                    //print("handleViews ------- cuisine state value now set to: \(tempFilter.cuisineStates[(indexPath.row)]!) ")
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }else {
+                    //print("handleViews ----- cuisine state nil")
+                    tempFilter.cuisineStates[(indexPath.row)] = true
+                    //print("handleViews ------- cuisine state value now set to: \(tempFilter.cuisineStates[(indexPath.row)]!) ")
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+            }
             
         default:
             break
         }
     }
     
-    func switchCell(switchcell: SwitchCell, didChangeValue value: Bool) {
-        print("filters view controller got the switch event")
-        let indexPath = tableView.indexPath(for: switchcell)
-        
-        switch indexPath?.section {
-        case SECTION_DEALS?:
-            tempFilter.isDealsChecked = value
-        case SECTION_DISTANCE?:
-            handleViews(didSelectRowAt: indexPath!)
-        case SECTION_SORT?:
-            handleViews(didSelectRowAt: indexPath!)
-        case SECTION_CUISINES?:
-            tempFilter.cuisineStates[(indexPath?.row)!] = value
-        default:
-            break
-        }
-        
-    }
+//    func switchCell(switchcell: SwitchCell, didChangeValue value: Bool) {
+//        print("filters view controller got the switch event")
+//        let indexPath = tableView.indexPath(for: switchcell)
+//        
+//        switch indexPath?.section {
+//        case SECTION_DEALS?:
+//            tempFilter.isDealsChecked = value
+//        case SECTION_DISTANCE?:
+//            //handleViews(didSelectRowAt: indexPath!, didChangeValue: value)
+//        case SECTION_SORT?:
+//            //handleViews(didSelectRowAt: indexPath!, didChangeValue: value)
+//        case SECTION_CUISINES?:
+//            //tempFilter.cuisineStates[(indexPath?.row)!] = value
+//            //handleViews(didSelectRowAt: indexPath!, didChangeValue: value)
+//        default:
+//            break
+//        }
+//        
+//    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return NUM_SECTIONS

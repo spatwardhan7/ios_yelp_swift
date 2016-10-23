@@ -21,6 +21,17 @@ class DataHelper: NSObject {
     }
     
     
+    static func initYelpCategoriesTestSet() -> [[String:String]]{
+        return [["name" : "Afghan", "code": "afghani"],
+                ["name" : "African", "code": "african"],
+                ["name" : "American, New", "code": "newamerican"],
+                ["name" : "American, Traditional", "code": "tradamerican"],
+                ["name" : "Arabian", "code": "arabian"],
+                ["name" : "Argentine", "code": "argentine"],
+                ["name" : "Armenian", "code": "armenian"],
+                ["name" : "Asian Fusion", "code": "asianfusion"]]
+    }
+    
     static func initYelpCategories() -> [[String: String]]{
         return[["name" : "Afghan", "code": "afghani"],
                ["name" : "African", "code": "african"],
