@@ -31,6 +31,8 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     let DISTANCE_LABEL_TEXT = ["Auto", "0.3 miles", "1 mile", "5 miles", "20 miles"]
     let SORT_LABEL_TEXT = ["Best Matched", "Distance", "Highest Rated"]
     
+    var isDistanceOpened : Bool = false
+    
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
     var currentFilter: Filter!
@@ -70,7 +72,11 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         case SECTION_DEALS:
             return 1
         case SECTION_DISTANCE:
-            return DISTANCE_LABEL_TEXT.count
+            if(isDistanceOpened){
+                return DISTANCE_LABEL_TEXT.count
+            } else {
+                return 1
+            }
         case SECTION_SORT:
             return SORT_LABEL_TEXT.count
         case SECTION_CUISINES:
@@ -107,17 +113,20 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.switchLabel.text = DEALS_LABEL_TEXT
             cell.onSwitch.isOn = tempFilter.isDealsChecked
         case SECTION_DISTANCE:
-            cell.switchLabel.text = DISTANCE_LABEL_TEXT[indexPath.row]
-            
-            if(indexPath.row == tempFilter.distance){
+            if(isDistanceOpened){
+                cell.switchLabel.text = DISTANCE_LABEL_TEXT[indexPath.row]
+                if(indexPath.row == tempFilter.distance){
+                    cell.radioButton.isSelected = true
+                }else {
+                    cell.radioButton.isSelected = false
+                }
+            } else {
+                cell.switchLabel.text = DISTANCE_LABEL_TEXT[tempFilter.distance]
                 cell.radioButton.isSelected = true
-            }else {
-                cell.radioButton.isSelected = false
             }
-            
+
             cell.onSwitch.isHidden = true
             cell.radioButton.isHidden = false
-            
         case SECTION_SORT:
             cell.switchLabel.text = SORT_LABEL_TEXT[indexPath.row]
             
@@ -146,6 +155,35 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
     
+    func handleViews(didSelectRowAt indexPath: IndexPath){
+        switch indexPath.section {
+        case SECTION_DISTANCE:
+            
+            if(isDistanceOpened){
+                let oldDistanceSelection = tempFilter.distance
+                tempFilter.distance = indexPath.row
+                if oldDistanceSelection != indexPath.row {
+                    let oldSelectionIndexPath = NSIndexPath(row: oldDistanceSelection, section: indexPath.section)
+                    self.tableView.reloadRows(at: [indexPath, oldSelectionIndexPath as IndexPath], with: .automatic)
+                }
+            }
+            
+            let opened = isDistanceOpened
+            isDistanceOpened = !opened
+            
+            if opened {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+                }
+            } else {
+                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+            }
+            
+        default:
+            break
+        }
+    }
+    
     func switchCell(switchcell: SwitchCell, didChangeValue value: Bool) {
         print("filters view controller got the switch event")
         let indexPath = tableView.indexPath(for: switchcell)
@@ -154,9 +192,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         case SECTION_DEALS?:
             tempFilter.isDealsChecked = value
         case SECTION_DISTANCE?:
-            tempFilter.distance = (indexPath?.row)!
-            print("Setting tempFilter.distance : \(tempFilter.distance)")
-            self.tableView.reloadData()
+            handleViews(didSelectRowAt: indexPath!)
         case SECTION_SORT?:
             tempFilter.sortMode = (indexPath?.row)!
             print("Setting tempFilter.sortMode : \(tempFilter.sortMode)")
