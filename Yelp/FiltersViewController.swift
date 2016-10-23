@@ -121,7 +121,9 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
         cell.delegate = self
-        
+        cell.textLabel?.text = ""
+        cell.switchLabel.text = ""
+        cell.accessoryType = UITableViewCellAccessoryType.none
         switch indexPath.section {
         case SECTION_DEALS:
               cell.switchLabel.text = DEALS_LABEL_TEXT
@@ -130,8 +132,6 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
               }else {
                 cell.accessoryView = UIImageView(image : UIImage(named : "empty-circle-2-16"))
               }
-
-            break
         case SECTION_DISTANCE:
             if(isDistanceOpened){
                 cell.switchLabel.text = DISTANCE_LABEL_TEXT[indexPath.row]
@@ -179,6 +179,9 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             } else {
                 //print("cellForRowAt - See All printed at index: \(indexPath.row)")
+                if(cell.accessoryView != nil) {
+                    cell.accessoryView = nil
+                }
                 cell.textLabel?.text = "See All"
                 cell.textLabel?.textAlignment = NSTextAlignment.center
             }
@@ -209,8 +212,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         case SECTION_DEALS:
             let oldSelection : Bool = tempFilter.isDealsChecked
             tempFilter.isDealsChecked = !oldSelection
-            self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            
+            self.tableView.reloadData()
         case SECTION_DISTANCE:
             
             if(isDistanceOpened){
