@@ -19,6 +19,7 @@
 		47848697133B87663A122E3D /* Pods_YelpTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1000F3975EB43318C1D4FA /* Pods_YelpTests.framework */; };
 		EE3165A21DBBBDEB0043932C /* MapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3165A11DBBBDEB0043932C /* MapsViewController.swift */; };
 		EE3165A41DBBFCE60043932C /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3165A31DBBFCE60043932C /* DetailsViewController.swift */; };
+		EE3165A61DBC31A60043932C /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3165A51DBC31A60043932C /* Switch.swift */; };
 		EE9B36A31DB702580002C2D9 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B36A21DB702580002C2D9 /* BusinessCell.swift */; };
 		EE9B36A51DB74C1F0002C2D9 /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B36A41DB74C1F0002C2D9 /* SwitchCell.swift */; };
 		EE9B36A71DB74E100002C2D9 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B36A61DB74E100002C2D9 /* FiltersViewController.swift */; };
@@ -59,6 +60,7 @@
 		C79C0AC126EDAA235847CEA2 /* Pods_Yelp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yelp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3165A11DBBBDEB0043932C /* MapsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsViewController.swift; sourceTree = "<group>"; };
 		EE3165A31DBBFCE60043932C /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		EE3165A51DBC31A60043932C /* Switch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Switch.swift; sourceTree = "<group>"; };
 		EE9B36A21DB702580002C2D9 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
 		EE9B36A41DB74C1F0002C2D9 /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		EE9B36A61DB74E100002C2D9 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				EE9B36A41DB74C1F0002C2D9 /* SwitchCell.swift */,
 				EEB6E15B1DB9D49600C1287B /* ISRadioButton.swift */,
 				EEA750AC1DBABB1E00D51E15 /* InfiniteScrollActivityView.swift */,
+				EE3165A51DBC31A60043932C /* Switch.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				EE9B36A51DB74C1F0002C2D9 /* SwitchCell.swift in Sources */,
 				EE3165A41DBBFCE60043932C /* DetailsViewController.swift in Sources */,
 				EEA750AB1DBA0C6E00D51E15 /* DataHelper.swift in Sources */,
+				EE3165A61DBC31A60043932C /* Switch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

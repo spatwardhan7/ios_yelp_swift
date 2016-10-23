@@ -169,7 +169,7 @@
                                                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vgv-Bo-A2n" customClass="ISRadioButton" customModule="Yelp" customModuleProvider="target">
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
-                                                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="value" red="0.82745098039215681" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="iconStrokeWidth">
                                                             <real key="value" value="1.7"/>
@@ -183,6 +183,7 @@
                                                         <userDefinedRuntimeAttribute type="number" keyPath="iconSize">
                                                             <real key="value" value="15"/>
                                                         </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="image" keyPath="setIconSelected" value="check-mark-5-16"/>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
                                                         <action selector="touchUpInsideButton:" destination="8BF-go-bRG" eventType="touchUpInside" id="HJN-gS-BPS"/>
@@ -451,6 +452,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="check-mark-5-16" width="16" height="16"/>
         <image name="no-image-found" width="400" height="230"/>
         <image name="phone-3-16" width="16" height="16"/>
         <image name="tag" width="16" height="16"/>
