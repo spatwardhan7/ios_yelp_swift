@@ -124,11 +124,13 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         switch indexPath.section {
         case SECTION_DEALS:
-//            cell.onSwitch.isHidden = false
-//            cell.radioButton.isHidden = true
-//            
-//            cell.switchLabel.text = DEALS_LABEL_TEXT
-//            cell.onSwitch.isOn = tempFilter.isDealsChecked
+              cell.switchLabel.text = DEALS_LABEL_TEXT
+              if(tempFilter.isDealsChecked){
+                cell.accessoryView = UIImageView(image : UIImage(named : "check-mark-5-16"))
+              }else {
+                cell.accessoryView = UIImageView(image : UIImage(named : "empty-circle-2-16"))
+              }
+
             break
         case SECTION_DISTANCE:
             if(isDistanceOpened){
@@ -190,6 +192,8 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch indexPath.section {
+        case SECTION_DEALS:
+            handleViews(didSelectRowAt: indexPath)
         case SECTION_DISTANCE:
             handleViews(didSelectRowAt: indexPath)
         case SECTION_SORT:
@@ -202,6 +206,11 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func handleViews(didSelectRowAt indexPath: IndexPath){
         switch indexPath.section {
+        case SECTION_DEALS:
+            let oldSelection : Bool = tempFilter.isDealsChecked
+            tempFilter.isDealsChecked = !oldSelection
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            
         case SECTION_DISTANCE:
             
             if(isDistanceOpened){

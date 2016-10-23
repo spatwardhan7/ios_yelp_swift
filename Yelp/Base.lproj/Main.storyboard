@@ -264,7 +264,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tag" translatesAutoresizingMaskIntoConstraints="NO" id="ThD-L5-6pa" userLabel="deal">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tag" translatesAutoresizingMaskIntoConstraints="NO" id="ThD-L5-6pa" userLabel="deal">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="16" id="9ac-XM-bEa"/>
                                     <constraint firstAttribute="height" constant="16" id="Mk8-V3-RW4"/>

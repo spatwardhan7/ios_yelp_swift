@@ -29,6 +29,8 @@ class BusinessCell: UITableViewCell {
             
             if(business.deals != nil){
                 dealImage.isHidden = false
+            } else {
+                dealImage.isHidden = true
             }
             
             if business.imageURL != nil {
