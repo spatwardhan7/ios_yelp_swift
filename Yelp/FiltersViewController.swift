@@ -32,6 +32,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
     let SORT_LABEL_TEXT = ["Best Matched", "Distance", "Highest Rated"]
     
     var isDistanceOpened : Bool = false
+    var isSortOpened : Bool = false
     
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
@@ -78,7 +79,11 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return 1
             }
         case SECTION_SORT:
-            return SORT_LABEL_TEXT.count
+            if(isSortOpened){
+                return SORT_LABEL_TEXT.count
+            } else {
+                return 1
+            }
         case SECTION_CUISINES:
             return categories.count
         default:
@@ -128,14 +133,18 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.onSwitch.isHidden = true
             cell.radioButton.isHidden = false
         case SECTION_SORT:
-            cell.switchLabel.text = SORT_LABEL_TEXT[indexPath.row]
-            
-            if(indexPath.row == tempFilter.sortMode){
+            if(isSortOpened){
+                cell.switchLabel.text = SORT_LABEL_TEXT[indexPath.row]
+                if(indexPath.row == tempFilter.sortMode){
+                    cell.radioButton.isSelected = true
+                }else {
+                    cell.radioButton.isSelected = false
+                }
+            } else {
+                cell.switchLabel.text = SORT_LABEL_TEXT[tempFilter.sortMode]
                 cell.radioButton.isSelected = true
-            }else {
-                cell.radioButton.isSelected = false
             }
-            
+        
             cell.onSwitch.isHidden = true
             cell.radioButton.isHidden = false
             break
@@ -179,6 +188,28 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
             }
             
+        case SECTION_SORT:
+            
+            if(isSortOpened){
+                let oldSortSelection = tempFilter.sortMode
+                tempFilter.sortMode = indexPath.row
+                if oldSortSelection != indexPath.row {
+                    let oldSelectionIndexPath = NSIndexPath(row: oldSortSelection, section: indexPath.section)
+                    self.tableView.reloadRows(at: [indexPath, oldSelectionIndexPath as IndexPath], with: .automatic)
+                }
+            }
+            
+            let opened = isSortOpened
+            isSortOpened = !opened
+            
+            if opened {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+                }
+            } else {
+                self.tableView.reloadSections(NSMutableIndexSet(index: indexPath.section) as IndexSet, with: .automatic)
+            }
+            
         default:
             break
         }
@@ -194,9 +225,7 @@ class FiltersViewController: UIViewController, UITableViewDelegate, UITableViewD
         case SECTION_DISTANCE?:
             handleViews(didSelectRowAt: indexPath!)
         case SECTION_SORT?:
-            tempFilter.sortMode = (indexPath?.row)!
-            print("Setting tempFilter.sortMode : \(tempFilter.sortMode)")
-            self.tableView.reloadData()
+            handleViews(didSelectRowAt: indexPath!)
         case SECTION_CUISINES?:
             tempFilter.cuisineStates[(indexPath?.row)!] = value
         default:
