@@ -33,6 +33,7 @@ The following **additional** features are implemented:
 
 - [x] Pull to refresh
 - [x] Progress Indicator
+- [x] Filters, Businesses and Search bar state persists moving to and from Map view and list view
 - [x] Display Deals icon, Phone number and website on details page
 - [x] Clicking on map annotation displays details page
 - [x] Autolayouts for all pages
