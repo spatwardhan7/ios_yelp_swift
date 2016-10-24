@@ -103,6 +103,18 @@ class MapsViewController: UIViewController, MKMapViewDelegate, UISearchBarDelega
         
     }
     
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("Call out accessory control tapped")
+          if view.annotation is Business{
+            let business = view.annotation as! Business
+            print("\(business.name!)")
+            let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+            nextVC.business = business
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
+    
+    }
+    
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filter: Filter) {
         self.filter = filter.copy() as! Filter
         networkCall()

@@ -233,7 +233,7 @@
         <!--Details View Controller-->
         <scene sceneID="W1e-vt-1v8">
             <objects>
-                <viewController id="L50-Z8-THR" customClass="DetailsViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailsViewController" id="L50-Z8-THR" customClass="DetailsViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TAb-Mt-rjc"/>
                         <viewControllerLayoutGuide type="bottom" id="EvI-St-FaR"/>

@@ -60,6 +60,8 @@ class BusinessCell: UITableViewCell {
         // Initialization code
         thumbImageView.layer.cornerRadius = 3
         thumbImageView.clipsToBounds = true
+        self.selectionStyle = .none
+
         
         // nameLabel.preferredMaxLayoutWidth = nameLabel.frame.size.width
     }
