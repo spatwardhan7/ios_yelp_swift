@@ -26,9 +26,10 @@
             </subviews>
             <color key="backgroundColor" red="0.82745098039215681" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="npv-zn-EUl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="FLd-FL-uFg"/>
+                <constraint firstItem="kxC-Qf-uim" firstAttribute="top" secondItem="npv-zn-EUl" secondAttribute="bottom" constant="8" id="9Ia-Vp-0ZQ"/>
                 <constraint firstItem="kxC-Qf-uim" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="HtS-lr-Sbx"/>
                 <constraint firstItem="npv-zn-EUl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="208" id="MlS-p7-pST"/>
+                <constraint firstItem="npv-zn-EUl" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Ow5-7k-4XQ"/>
                 <constraint firstAttribute="trailing" secondItem="npv-zn-EUl" secondAttribute="trailing" constant="208" id="XWa-bR-uYQ"/>
                 <constraint firstItem="kxC-Qf-uim" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="gr8-BJ-y8f"/>
             </constraints>

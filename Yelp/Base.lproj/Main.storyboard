@@ -128,7 +128,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Map" id="5KK-JQ-tYN">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <segue destination="Nqm-r0-3bn" kind="push" identifier="mapSegue" id="Zj6-yP-R6x"/>
+                                <segue destination="h0P-10-Czh" kind="modal" identifier="MapsFlipSegue" modalTransitionStyle="flipHorizontal" id="jcx-jC-XKv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -404,11 +404,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="IHA-vs-D0o">
-                        <barButtonItem key="rightBarButtonItem" title="Filters" id="5Yf-DD-OvC">
-                            <connections>
-                                <segue destination="KTK-6s-kpz" kind="modal" identifier="filterFromMapSegue" id="6WC-wc-Qjx"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Filters" id="5Yf-DD-OvC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="1rk-mX-VI5" id="Xfd-UL-C4u"/>
@@ -436,6 +432,66 @@
             </objects>
             <point key="canvasLocation" x="2309.5" y="399.5"/>
         </scene>
+        <!--Maps Flip View Controller-->
+        <scene sceneID="4fz-ZI-NXG">
+            <objects>
+                <viewController id="Bme-JU-0Ym" customClass="MapsFlipViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iwV-0U-nUN"/>
+                        <viewControllerLayoutGuide type="bottom" id="U9q-yA-yZQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FEc-CU-3dQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="n44-c1-35S"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="n44-c1-35S" secondAttribute="trailing" id="3SZ-hx-ekT"/>
+                            <constraint firstItem="n44-c1-35S" firstAttribute="top" secondItem="iwV-0U-nUN" secondAttribute="bottom" id="Ede-fh-jwg"/>
+                            <constraint firstItem="U9q-yA-yZQ" firstAttribute="top" secondItem="n44-c1-35S" secondAttribute="bottom" id="fv4-u9-dFZ"/>
+                            <constraint firstItem="n44-c1-35S" firstAttribute="leading" secondItem="FEc-CU-3dQ" secondAttribute="leading" id="xcA-Ku-Z0j"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Wk4-uW-o7l">
+                        <barButtonItem key="leftBarButtonItem" title="Filters" id="ryO-Zd-XvO">
+                            <connections>
+                                <segue destination="KTK-6s-kpz" kind="modal" identifier="filterFromMapSegue" id="Z4z-L9-3aQ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="List" id="Fx8-gC-jHj">
+                            <connections>
+                                <segue destination="xCc-Lp-gu3" kind="modal" identifier="mapsToListSegue" modalTransitionStyle="flipHorizontal" id="YdW-D0-kVG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="n44-c1-35S" id="VJj-7P-8TT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h9H-LU-f4m" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2906.5" y="1234.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="6dU-BB-kXF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="h0P-10-Czh" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XDk-Kg-Rll">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Bme-JU-0Ym" kind="relationship" relationship="rootViewController" id="gl5-V8-DTo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Wt-oK-6os" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2319.5" y="1234.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="no-image-found" width="400" height="230"/>
@@ -448,6 +504,6 @@
         <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6WC-wc-Qjx"/>
+        <segue reference="Z4z-L9-3aQ"/>
     </inferredMetricsTieBreakers>
 </document>

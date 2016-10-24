@@ -29,12 +29,12 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.statusBarStyle = .lightContent
-
+        
         self.navigationController?.navigationBar.barTintColor =  UIColor(red: (211/255.0), green: (35/255.0), blue: (35/255.0), alpha: 1.0)
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationController?.navigationBar.tintColor = UIColor.white;
-
+        
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -78,6 +78,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func createSearchBar(){
         searchBar.delegate = self
+        searchBar.text = searchTerm
         searchBar.placeholder = "Search"
         self.navigationItem.titleView = searchBar
     }
@@ -204,14 +205,14 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             self.tableView.alpha = 1
             
             
-//            if let businesses = businesses {
-//                for business in businesses {
-//                    print(business.name!)
-//                    print(business.address!)
-//                    print(business.latitude!)
-//                    print(business.longitude!)
-//                }
-//            }
+            //            if let businesses = businesses {
+            //                for business in businesses {
+            //                    print(business.name!)
+            //                    print(business.address!)
+            //                    print(business.latitude!)
+            //                    print(business.longitude!)
+            //                }
+            //            }
         }
     }
     
@@ -255,6 +256,21 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             let detailsViewController = segue.destination as! DetailsViewController
             
             detailsViewController.business = detailBusiness
+        } else if(segue.identifier == "MapsFlipSegue"){
+            print("Maps Flip Segue")
+            let navigationController = segue.destination as! UINavigationController
+            let mapsFlipViewController = navigationController.topViewController as! MapsFlipViewController
+            
+            mapsFlipViewController.businesses = self.businesses
+            mapsFlipViewController.filter = self.filter
+            mapsFlipViewController.searchTerm = self.searchTerm
+            /*
+             let navigationController = segue.destination as! UINavigationController
+             let mapsFlipViewController = segue.destination as! MapsFlipViewController
+             mapsFlipViewController.businesses = self.businesses
+             mapsFlipViewController.filter = self.filter
+             mapsFlipViewController.searchTerm = self.searchTerm
+             */
         }
     }
     
