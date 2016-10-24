@@ -36,6 +36,9 @@ class DetailsViewController: UIViewController {
             mapView.setRegion(coordinateRegion, animated: true)
         }
         
+//        thumbImageView.layer.borderColor = UIColor(red: (204/255.0), green: (204/255.0), blue: (204/255.0), alpha: 1.0).cgColor
+//        thumbImageView.layer.borderWidth = 1
+        
         
         nameLabel.text = business.name
         categoryLabel.text = business.categories
